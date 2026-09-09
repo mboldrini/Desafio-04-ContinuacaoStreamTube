@@ -1,4 +1,5 @@
 import { Readable } from 'stream';
+import * as fsPromises from 'fs/promises';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Job } from 'bullmq';
@@ -30,11 +31,13 @@ jest.mock('stream/promises', () => ({
 }));
 
 jest.mock('fs', () => ({
+  ...jest.requireActual<typeof import('fs')>('fs'),
   createWriteStream: jest.fn().mockReturnValue({}),
   createReadStream: jest.fn().mockReturnValue(new Readable({ read() {} })),
 }));
 
 jest.mock('fs/promises', () => ({
+  ...jest.requireActual<typeof import('fs/promises')>('fs/promises'),
   unlink: jest.fn().mockResolvedValue(undefined),
 }));
 
@@ -128,16 +131,16 @@ describe('VideoProcessor', () => {
     });
 
     it('cleans up temp files in finally block on success', async () => {
-      const { unlink } = await import('fs/promises');
       const job = makeJob(jobData);
 
       await processor.process(job);
 
-      expect(unlink).toHaveBeenCalledWith(expect.stringContaining('vid-uuid'));
+      expect(fsPromises.unlink).toHaveBeenCalledWith(
+        expect.stringContaining('vid-uuid'),
+      );
     });
 
     it('cleans up temp files even when ffprobe fails', async () => {
-      const { unlink } = await import('fs/promises');
       (ffmpeg.ffprobe as jest.Mock).mockImplementation(
         (_path: string, cb: (err: Error | null, data: any) => void) => {
           cb(new Error('ffprobe error'), null as any);
@@ -147,7 +150,9 @@ describe('VideoProcessor', () => {
 
       await expect(processor.process(job)).rejects.toThrow('ffprobe error');
 
-      expect(unlink).toHaveBeenCalledWith(expect.stringContaining('vid-uuid'));
+      expect(fsPromises.unlink).toHaveBeenCalledWith(
+        expect.stringContaining('vid-uuid'),
+      );
     });
   });
 

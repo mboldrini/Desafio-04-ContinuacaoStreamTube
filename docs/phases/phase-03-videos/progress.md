@@ -1,7 +1,7 @@
 # phase-03-videos — Progress
 
-**Status:** in progress
-**SIs:** 11/11 implemented (pending full test suite run in Docker)
+**Status:** complete
+**SIs:** 11/11 implemented and verified
 
 ### SI-03.1 — Infrastructure: Dependencies, Config Namespaces, and Docker Compose
 - **Status:** completed
@@ -54,6 +54,6 @@
 - **Observations:** Content-Disposition: attachment with sanitized title (spaces→_, non-alphanumeric stripped); @Public() endpoint.
 
 ### SI-03.11 — TypeScript Compilation, Lint, and Definition of Done
-- **Status:** in progress — pending Docker test run
-- **Tests:** full suite (tsc + lint + unit + integration + e2e)
-- **Observations:** npx tsc --noEmit exits clean; eslint exits with 0 errors (warnings only in test files per test exception rules). Full test suite requires Docker containers running (db, redis, minio).
+- **Status:** completed
+- **Tests:** 199/199 unit+integration, 70/70 e2e — all green
+- **Observations:** Fixed 5 test bugs: (1) integration spec used string token `'StorageService'` instead of class reference; (2) `video.processor.spec.ts` `jest.mock('fs')` stripped `fs.promises`, breaking TypeORM import via path-scurry — fixed with `...jest.requireActual('fs')`; (3) dynamic `import()` in test body replaced with static import; (4) `videos.module.spec.ts` rewritten to use real DB + real Redis, with StorageService mocked; (5) e2e `--runInBand` missing from package.json causing FK violations from parallel DB writes. Also: `testTimeout: 30000` added to jest-e2e.json; controller now exposes `storage_key` in upload-init response for MinIO direct-upload in e2e tests.

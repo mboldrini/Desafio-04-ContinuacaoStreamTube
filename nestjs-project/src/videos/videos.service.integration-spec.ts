@@ -10,6 +10,7 @@ import { Channel } from '../channels/entities/channel.entity';
 import { ChannelsService } from '../channels/channels.service';
 import { User } from '../users/entities/user.entity';
 import { StorageModule } from '../storage/storage.module';
+import { StorageService } from '../storage/storage.service';
 import { cleanAllTables } from '../test/create-test-data-source';
 import storageConfig from '../config/storage.config';
 import databaseConfig from '../config/database.config';
@@ -73,7 +74,7 @@ describe('VideosService (integration)', () => {
     userRepository = module.get(getRepositoryToken(User));
     channelRepository = module.get(getRepositoryToken(Channel));
 
-    const storageService = module.get('StorageService');
+    const storageService = module.get(StorageService);
     await storageService.onModuleInit();
   });
 
@@ -159,7 +160,7 @@ describe('VideosService (integration)', () => {
         file_size: 512,
       });
 
-      const storageService = module.get('StorageService');
+      const storageService = module.get(StorageService);
       await storageService.putObjectFromStream(
         video.storage_key!,
         Buffer.from('fake video data'),
