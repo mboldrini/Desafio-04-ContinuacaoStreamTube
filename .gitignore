@@ -1,0 +1,22 @@
+.history/
+settings.local.json
+_claude-sessions/
+skills-lock.json
+
+# Dependencies
+nestjs-project/node_modules/
+next-frontend/node_modules/
+
+# Build outputs
+nestjs-project/dist/
+next-frontend/.next/
+
+# Environment files (contain secrets)
+nestjs-project/.env
+
+# Test outputs
+nestjs-project/coverage/
+
+# OS
+.DS_Store
+Thumbs.db
