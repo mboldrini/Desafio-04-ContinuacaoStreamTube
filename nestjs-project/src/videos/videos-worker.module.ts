@@ -9,6 +9,7 @@ import queueConfig from '../config/queue.config';
 import { Video } from './entities/video.entity';
 import { VideoProcessor } from './processors/video.processor';
 import { Channel } from '../channels/entities/channel.entity';
+import { User } from '../users/entities/user.entity';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { Channel } from '../channels/entities/channel.entity';
         synchronize: false,
       }),
     }),
-    TypeOrmModule.forFeature([Video, Channel]),
+    TypeOrmModule.forFeature([Video, Channel, User]),
     StorageModule,
     QueueModule,
   ],
