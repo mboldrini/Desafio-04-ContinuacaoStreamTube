@@ -34,7 +34,7 @@ See `docs/diagrams/software-arch.mermaid` for the full diagram. Key containers:
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| POST | `/videos/upload-init` | JWT | Creates draft video record, returns presigned S3 PUT URL (expires 1 h) |
+| POST | `/videos/upload-init` | JWT | Creates draft video record, returns presigned S3 PUT URL (expires 43200 s / 12 h) |
 | POST | `/videos/:id/complete` | JWT (owner) | Marks upload complete, enqueues processing job |
 | GET | `/videos/:uniqueId/stream` | Public | Streams video with Range/206 support |
 | GET | `/videos/:uniqueId/download` | Public | Downloads video with `Content-Disposition: attachment` |
@@ -45,8 +45,8 @@ See `docs/diagrams/software-arch.mermaid` for the full diagram. Key containers:
 - `src/videos/videos.module.ts` — registers controller, service, StorageModule, QueueModule
 - `src/videos/videos.service.ts` — business logic (initiateUpload, completeUpload, streamVideo, downloadVideo)
 - `src/videos/videos.controller.ts` — HTTP layer
-- `src/videos/video.processor.ts` — BullMQ worker consumer (ffprobe + ffmpeg thumbnail)
-- `src/videos/worker.ts` — standalone worker bootstrap (VideosWorkerModule)
+- `src/videos/processors/video.processor.ts` — BullMQ worker consumer (ffprobe + ffmpeg thumbnail)
+- `src/worker.ts` — standalone worker bootstrap (VideosWorkerModule)
 - `src/storage/` — StorageService wrapping AWS S3 SDK (forcePathStyle for MinIO)
 - `src/queue/` — QueueModule registering BullMQ `video-processing` queue
 

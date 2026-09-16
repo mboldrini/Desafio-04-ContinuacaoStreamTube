@@ -35,7 +35,7 @@ Services:
 - `nestjs-api` — NestJS API, port `3000`
 - `db` — PostgreSQL 17, port `5432`, database `streamtube`, user/password `streamtube`
 - `mailpit` — SMTP + web UI, ports `1025` (SMTP) / `8025` (UI)
-- `minio` — Object storage (S3-compatible), port `9000` API / `9001` console; credentials `minioadmin/minioadmin`
+- `minio` — Object storage (S3-compatible), port `9000` API / `9001` console; credentials `streamtube/streamtube`
 - `redis` — BullMQ broker, port `6379`
 - `video-worker` — FFmpeg video processing worker (Dockerfile.worker.dev)
 
@@ -139,15 +139,15 @@ Required variables in `.env` (see `.env.example` for defaults):
 | `DB_PORT` | PostgreSQL port | `5432` |
 | `DB_USERNAME` | PostgreSQL user | `streamtube` |
 | `DB_PASSWORD` | PostgreSQL password | `streamtube` |
-| `DB_DATABASE` | PostgreSQL database name | `streamtube` |
+| `DB_NAME` | PostgreSQL database name | `streamtube` |
 | `JWT_SECRET` | JWT signing secret | — |
 | `MINIO_ENDPOINT` | MinIO/S3 host | `minio` |
 | `MINIO_PORT` | MinIO port | `9000` |
-| `MINIO_ACCESS_KEY` | MinIO access key | `minioadmin` |
-| `MINIO_SECRET_KEY` | MinIO secret key | `minioadmin` |
+| `MINIO_ACCESS_KEY` | MinIO access key | `streamtube` |
+| `MINIO_SECRET_KEY` | MinIO secret key | `streamtube` |
 | `MINIO_BUCKET` | Target bucket name | `streamtube` |
 | `MINIO_USE_SSL` | SSL flag | `false` |
-| `STORAGE_PRESIGNED_URL_EXPIRY_SECONDS` | Presigned URL TTL | `3600` |
+| `PRESIGNED_URL_EXPIRY_SECONDS` | Presigned URL TTL | `43200` |
 | `REDIS_HOST` | Redis service name | `redis` |
 | `REDIS_PORT` | Redis port | `6379` |
 
